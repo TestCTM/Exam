@@ -1,4 +1,5 @@
-﻿using ApiExam.Logic;
+﻿using ApiExam.Interfaces;
+using ApiExam.Logic;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,16 +10,24 @@ using System.Threading.Tasks;
 
 namespace ApiExam.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class MainController : ControllerBase
     {
+        private readonly IOperations operations;
+
+        public MainController(IOperations operations)
+        {
+            this.operations = operations;
+        }
+
+
         // GET: api/<MainController>
         [HttpGet("{n}")]
-        public IEnumerable<string> Get(int n)
+        public async Task<IEnumerable<string>> Get(int n)
         {
-            Operations operations = new Operations();
-            return operations.FizzBuzz(n);
+            return await operations.FizzBuzz(n);
         }
 
        

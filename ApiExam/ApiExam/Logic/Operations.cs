@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ApiExam.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ApiExam.Logic
 {
-    public class Operations
+    public class Operations:IOperations
     {
         /// <summary>
         /// For each multiple of 3, print "Fizz" instead of the number.
@@ -14,27 +15,24 @@ namespace ApiExam.Logic
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
-        public List<string> FizzBuzz(int n) {
+        public Task<List<string>> FizzBuzz(int n) {
 
             List<string> listFizzBuzz = new List<string>();
 
 
             for (int i = 1; i <= n; i++)
             {
+                string result = null;
+                if (i % 3 == 0)
+                    result = "Fizz";
+                if (i % 5 == 0)
+                    result += "Buzz";
 
-                if (i % 3 == 0 && i % 5 != 0)
-                    listFizzBuzz.Add("Fizz");
-                else if (i % 5 == 0 && i % 3 != 0)
-                    listFizzBuzz.Add("Buzz");
-                else if (i % 5 == 0 && i % 3 == 0)
-                    listFizzBuzz.Add("FizzBuzz");
-                else
-                    listFizzBuzz.Add(i.ToString());
+                listFizzBuzz.Add(result!=null ? result:i.ToString());
+                
             }
 
-
-
-            return listFizzBuzz;
+            return Task.FromResult(listFizzBuzz);
 
         }
 
